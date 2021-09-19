@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-5 col-md-12 col-12 col-sm-12">
+      <form method="post" id="uploadData1"  action="javascript:void(0)" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card">
+          <div class="card-header">
+            <h4>Add Categories here</h4>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Category Name</label>
+              <input type="text"  class="form-control" name="catname" required >
+              
+            </div>
+            <div class="form-group">
+              <label>Category Description</label><br>
+              <textarea  name="cdesc" ></textarea>
+            </div>
+          
+          <div class="form-group">
+            <label>FileUpload</label>
+            <input type="file" id=file class="form-control" name="img" autofocus>
+        </div>
+    </div>
+          <div class="card-footer">
+            <button class="btn btn-primary">ADD</button>
+            <button type="reset" value="Reset" class="btn btn-primary">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+      <script>
+         $("#uploadData1").validate({
+            normalizer: function(value) {
+                return $.trim(value);
+            },
+            rules: {
+    
+                catname: {
+                    required: true
+                },
+                cdesc: {
+                  required: true
+                },
+               
+                img: {
+                  required: true
+                },
+            },
+    
+            submitHandler: function(form) {
+                var form = document.getElementById('uploadData1');
+                var data = new FormData(form);
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'categorydata' %}",
+                    data,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                      if (data.error==0){
+                            $("#modal-dialog").html('Server response');
+                            $("#custom_error_messages").html(data.message);
+                            $('#exampleModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            })
+    
+                      }
+
+                    }
+                });
+                setTimeout(function(){ 
+                  window.location.replace("{% url 'viewcategory'%}");}, 1000);
+                return false;
+            }
+        });
+    </script>
+        
+
+    {% endblock %}

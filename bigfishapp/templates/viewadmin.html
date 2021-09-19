@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          
+          <th>Name</th>
+          
+          <th>Email</th>
+          <th>Password</th>
+          <th>Mobile</th>
+          <th>FileUpload</th>
+          
+        </tr>
+        {% for da in data %}
+        <tr>
+            <td>{{da.Name}}</td>
+            <td>{{da.Email}}</td>
+            <td>{{da.Password}}</td>
+            <td>{{da.Mobile}}</td>
+            <td><img src="{{da.FileUpload.url}}" height="100" width="100"></td>
+            <td>
+              <form method="POST" action="{% url 'editadmin' dataid=da.id %}">
+                {% csrf_token %}
+              <button class="badge badge-success"><div class="badge badge-success" >Update </div></button>&nbsp;</form></td>
+       <td>
+         <form method="POST" action="{% url 'deleteadmin' dataid=da.id %}">
+            {% csrf_token %}
+              <button class="badge badge-success"> <div class="badge badge-success">Delete</div></button></form></td>
+         </tr>
+          {% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}

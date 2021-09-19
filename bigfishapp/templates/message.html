@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+<table class="table table-bordered">
+    <tr>
+      
+      <th>Name</th>
+      <th>Email</th>
+      <th>Subject</th>
+      <th>Message</th>
+      
+      
+    </tr>
+    {% for da in data %}
+    <tr>
+        <td>{{da.Name}}</td>
+        <td>{{da.Email}}</td>
+        <td>{{da.Subject}}</td>
+        <td>{{da.Message}}</td>    
+          </tr>
+      {% endfor %}
+</table>
+
+</div>
+</div>
+{% endblock %}

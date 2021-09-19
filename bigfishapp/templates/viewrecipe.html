@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          
+          <th>Recipe Name</th>
+          
+          <th>Recipe Ingredients</th>
+          <th>Recipe Instructions</th>
+          
+          <th>Recipe Image</th>
+          
+        </tr>
+        {% for da in data %}
+        <tr>
+            <td>{{da.Recipe_Name}}</td>
+            <td>{{da.Recipe_Ingredients}}</td>
+            <td>{{da.Recipe_Instructions}}</td>
+            
+            <td><img src="{{da.Recipe_Image.url}}" height="100" width="100"></td>
+            <td>
+              <form method="POST" action="{% url 'editrec' dataid=da.id %}">
+                {% csrf_token %}
+              <button class="badge badge-success"><div class="badge badge-success" >Update </div></button>&nbsp;</form></td>
+       <td>
+         <form method="POST" action="{% url 'deleterec' dataid=da.id %}">
+            {% csrf_token %}
+              <button class="badge badge-success"> <div class="badge badge-success">Delete</div></button></form></td>
+         </tr>
+          {% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}

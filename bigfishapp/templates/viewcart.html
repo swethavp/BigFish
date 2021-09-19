@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+<table class="table table-bordered">
+    <tr>
+      
+      <th>Userid</th>
+      <th>Productid</th>
+      
+      <th>Quantity</th>
+      <th>Total</th>
+      <th>Status</th>
+      
+    </tr>
+    {% for da in data %}
+    <tr>
+        <td>{{da.userid_id}}</td>
+        <td>{{da.productid_id}}</td>
+        <td>{{da.quantity}}</td>
+        <td>{{da.Total}}</td>  
+        <td>{{da.status}}</td>  
+          </tr>
+      {% endfor %}
+</table>
+
+</div>
+</div>
+{% endblock %}

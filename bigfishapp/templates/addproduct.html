@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+{% block content %}
+<!--<div class="card card-primary">
+    <div class="card-header"><h4>Register</h4></div>
+
+    <div class="card-body">-->
+      <form method="POST" id="uploadData1"  action="javascript:void(0)" enctype="multipart/form-data">
+          {% csrf_token %}
+      <!--  <div class="row">
+          <div class="form-group col-6">-->
+            <div class="form-group">
+            <label for="frist_name">Product Name</label>
+            <input id="frist_name" type="text" class="form-control" name="pname" autofocus>
+          </div>
+       <!-- <div class="form-group col-6">
+            <label for="last_name">Last Name</label>
+            <input id="last_name" type="text" class="form-control" name="last_name">
+          </div>  
+        </div>-->
+
+        <div class="form-group">
+            <label for="frist_name">Product Weight</label>
+            <input id="frist_name" type="text" class="form-control" name="pweight" autofocus>
+          </div>
+
+          <div class="form-group">
+            <label for="frist_name">Product Price</label>
+            <input id="frist_name" type="text" class="form-control" name="price" autofocus>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-6">
+            <label for="frist_name">Product Category</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <select  class="form-control" name="pcat" id=cat>
+              {% for d in da %}
+              <option value="{{d.Category_name}}">{{d.Category_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+
+    
+        
+        <div class="form-group">
+            <label>Product Image</label>
+            <input type="file" id=file class="form-control" name="pfile" autofocus>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">
+            ADD PRODUCT
+          </button>
+          <button type="reset" value="Reset" class="btn btn-primary btn-block" >Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+    <script>
+       $("#uploadData1").validate({
+          normalizer: function(value) {
+              return $.trim(value);
+          },
+          rules: {
+  
+              pname: {
+                  required: true
+              },
+              pweight: {
+                required: true
+              },
+              price: {
+                required: true
+              },
+              pcat: {
+                required: true
+              },
+              pfile: {
+                required: true
+              },
+          },
+  
+          submitHandler: function(form) {
+              var form = document.getElementById('uploadData1');
+              var data = new FormData(form);
+              $.ajax({
+                  type: "POST",
+                  url: "{% url 'productdata' %}",
+                  data,
+                  dataType: "json",
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  success: function(data) {
+                    if (data.error==0){
+                          $("#modal-dialog").html('Server response');
+                          $("#custom_error_messages").html(data.message);
+                          $('#exampleModal').modal({
+                              backdrop: 'static',
+                              keyboard: false
+                          })
+                    }
+                      
+                  }
+              });
+              setTimeout(function(){ 
+                window.location.replace("{% url 'viewproduct'%}");}, 1000);
+              return false;
+          }
+      });
+  </script>
+      
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+<table class="table table-bordered">
+    <tr>
+      
+      <th>Name</th>
+      <th>District</th>
+      <th>Address</th>
+      <th>Town</th>
+      <th>Zipcode</th>
+      <th>Phone No</th>
+      <th>Email</th>
+      
+    </tr>
+    {% for da in data %}
+    <tr>
+        <td>{{da.firstname}} &nbsp;{{da.lastname}}</td>
+        <td>{{da.district}}</td>
+        <td>{{da.street_address}}</td>
+        <td>{{da.town}}</td>  
+        <td>{{da.pin}}</td>
+        <td>{{da.phone}}</td>
+        <td>{{da.email}}</td>  
+          </tr>
+      {% endfor %}
+</table>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-5 col-md-12 col-12 col-sm-12">
+        {% for da in data %}
+      <form method="post"   action="{% url 'updatecat' dataid=da.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card">
+          <div class="card-header">
+            <h4>Edit Categories </h4>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Category Name</label>
+              <input type="text"  class="form-control" name="catname" value="{{da.Category_name}}">
+              
+            </div>
+            <div class="form-group">
+              <label>Category Description</label><br>
+              <textarea  name="cdesc">{{da.Category_description}}</textarea>
+            </div>
+          
+          <div class="form-group">
+            <label>FileUpload</label>
+            <input type="file" id=file class="form-control" name="img" autofocus value="{{da.FileUpload}}" >
+        </div>
+    </div>
+          <div class="card-footer">
+            <button class="btn btn-primary">UPDATE</button>
+          </div>
+        </div>
+      </form>
+      {% endfor %}
+    </div>
+    </div>
+    {% endblock %}

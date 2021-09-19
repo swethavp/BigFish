@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          
+          <th>Category Name</th>
+          
+          <th>Category Description</th>
+          
+          <th>FileUpload</th>
+          
+        </tr>
+        {% for da in data %}
+        <tr>
+            <td>{{da.Category_name}}</td>
+            <td>{{da.Category_description}}</td>           
+            <td><img src="{{da.FileUpload.url}}" height="150" width="150"></td>
+            <td>
+             <form method="POST" action="{% url 'editcat' dataid=da.id %}">
+                {% csrf_token %}
+              <button class="badge badge-success"><div class="badge badge-success" >Update </div></button>&nbsp;</form></td>
+       <td>
+         <form method="POST" action="{% url 'deletecat' dataid=da.id %}">
+            {% csrf_token %}
+              <button class="badge badge-success"> <div class="badge badge-success">Delete</div></button></form></td>
+          </tr>
+          {% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}

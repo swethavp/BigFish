@@ -1,0 +1,129 @@
+{% extends 'fishindex.html' %}
+{% block content %}
+
+{% load static %}
+
+    <!-- END nav -->
+    
+    <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/mike-bergmann-tHjXXy1kk_Q-unsplash.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+          <div class="col-md-9 ftco-animate mb-5 text-center">
+            <p class="breadcrumbs mb-0"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Cart <i class="fa fa-chevron-right"></i></span></p>
+            <h2 class="mb-0 bread">My Cart</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ftco-section">
+    	<div class="container">
+    		<div class="row">
+    			<div class="table-wrap">
+						<table class="table">
+						  <thead class="thead-primary">
+						    <tr>
+						    	<th>Image</th>
+						    	<th>Productid</th>
+						      <th>Price</th>
+                              
+						      <th>Quantity</th>
+						      <th>Total</th>
+                              <th>Action</th>
+						      
+						    </tr>
+						</thead>
+						  <tbody>
+						    {% for da in data %}
+        <tr>
+			<td><img src="{{da.productid.Image.url}}" height="150" width="150"></td>
+            <td>{{da.productid_id}}
+				<input type="hidden" class="pid" id="pid" value="{{da.id}}">								
+                                
+			</td>
+            <td>{{da.productid.Product_Price}}</td>  
+			
+				
+            <td><input type="number" id="quan{{da.id}}" name="quantity" class="quantity form-control input-number" value="{{da.quantity}}" min="1" max="100">
+				<input type="hidden" id="price" value="{{da.productid.Product_Price}}">
+				<input type='hidden' id="userid" name="userid" value="{{request.session.userid}}">
+	   </td>   
+			<td><input name="total" id="total" type="text" value="{{da.Total}}"></td>  
+			<td>
+				<form action="{% url 'deletecart' dataid=da.id %}" method="post" class="col-md-6" style="margin-right:5px;">
+					{% csrf_token %}
+					<button  type="submit" class="right badge badge-danger"  class="btn btn-danger" >Delete</button>
+				  </form>                 
+				</td>       
+               </tr>
+          {% endfor %}
+</tbody>
+</table>
+
+</div>
+</div>
+    				<div class="row justify-content-end">
+						<div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+							<div class="cart-total mb-3">
+								<h3>Cart Totals</h3>
+								<p class="d-flex">
+									<span>Subtotal</span>
+									<span>{{s}}</span>
+								</p>
+								<p class="d-flex">
+									<span>Delivery</span>
+									<span>$0.00</span>
+								</p>
+								<!--<p class="d-flex">
+									<span>Discount</span>
+									<span>$3.00</span>
+								</p>-->
+								<hr>
+								<p class="d-flex total-price">
+									<span>Grant Total</span>
+									
+									<span>{{s}}</span>
+								</p>
+							</div>
+							<p class="text-center"><a href="{% url 'checkout' %}" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+						</div>
+					</div>
+				</div>
+		</section>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+			$(".quantity").on('change',function() {
+			// Get the row containing the input
+			var row = $(this).closest('tr');
+			// var p = $('#price').val();
+			var pid = parseInt(row.find(".pid").val());  
+			//alert(pid)  
+			var quantity = parseInt(row.find(this).val());
+			//alert(quantity)
+			var price = parseInt(row.find('#price').val());
+			//alert(price)
+			// var total =  parseInt(qty)*parseInt(price);
+			location.reload(true);
+			//  $("#tot_amount").val(total);
+					$.ajax({
+							url: "{% url 'cartupdate' %}",
+							method: 'post',
+							cache: false,
+							data: {
+								pid: pid,
+								quantity: quantity,
+								price: price,
+							},
+						 
+							success: function(response) {
+								alert(data.message)
+								console.log(response);
+							}
+						});
+		
+			});
+		});  
+			</script>
+		
+	{% endblock %}

@@ -1,0 +1,147 @@
+{% extends 'index.html' %}
+{% block content %}
+<!--<div class="card card-primary">
+    <div class="card-header"><h4>Register</h4></div>
+
+    <div class="card-body">-->
+      <form method="POST" id="uploadData1"  action="javascript:void(0)" enctype="multipart/form-data">
+          {% csrf_token %}
+      <!--  <div class="row">
+          <div class="form-group col-6">-->
+            <div class="form-group">
+            <label for="frist_name">Recipe Name</label>
+            <input id="frist_name" type="text" class="form-control" name="rname" autofocus>
+          </div>
+       <!-- <div class="form-group col-6">
+            <label for="last_name">Last Name</label>
+            <input id="last_name" type="text" class="form-control" name="last_name">
+          </div>  
+        </div>-->
+
+        <div class="form-group">
+          <label>Recipe Ingredients</label>
+          <div>
+          <textarea name="ringredients"></textarea>
+        </div>
+        </div>
+
+   
+     
+
+     <!-- <div class="form-divider">
+          Your Home
+        </div>
+        <div class="row">
+          <div class="form-group col-6">
+            <label>Country</label>
+            <select class="form-control">
+              <option>Indonesia</option>
+              <option>Palestine</option>
+              <option>Syria</option>
+              <option>Malaysia</option>
+              <option>Thailand</option>
+            </select>
+          </div>
+          <div class="form-group col-6">
+            <label>Province</label>
+            <select class="form-control">
+              <option>West Java</option>
+              <option>East Java</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-6">
+            <label>City</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="form-group col-6">
+            <label>Postal Code</label>
+            <input type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" name="agree" class="custom-control-input" id="agree">
+            <label class="custom-control-label" for="agree">I agree with the terms and conditions</label>
+          </div>
+        </div>-->  
+        <div class="form-group">
+      
+        <label>Recipe Instructions</label>
+        <div>
+        <textarea name="rinstructions"></textarea></div>
+    </div>
+        
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" id=file class="form-control" name="rfile" autofocus>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">
+            ADD RECIPE
+          </button>
+          <button type="reset" value="Reset" class="btn btn-primary btn-block" >Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+    <script>
+       $("#uploadData1").validate({
+          normalizer: function(value) {
+              return $.trim(value);
+          },
+          rules: {
+  
+              rname: {
+                  required: true
+              },
+              ringredients: {
+                required: true
+              },
+              rinstructions: {
+                required: true
+              },
+              
+              rfile: {
+                required: true
+              },
+          },
+  
+          submitHandler: function(form) {
+              var form = document.getElementById('uploadData1');
+              var data = new FormData(form);
+              $.ajax({
+                  type: "POST",
+                  url: "{% url 'recipedata' %}",
+                  data,
+                  dataType: "json",
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  success: function(data) {
+                    if (data.error==0){
+                          $("#modal-dialog").html('Server response');
+                          $("#custom_error_messages").html(data.message);
+                          $('#exampleModal').modal({
+                              backdrop: 'static',
+                              keyboard: false
+                          })
+                    }
+                      
+                  }
+              });
+              setTimeout(function(){ 
+                window.location.replace("{% url 'viewrecipe'%}");}, 1000);
+              return false;
+          }
+      });
+  </script>
+{% endblock %}

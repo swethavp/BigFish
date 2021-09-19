@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          
+          <th>Product Name</th>    
+          <th>Product Weight</th>
+          <th>Product Price</th>
+          <th>Product Category</th>        
+          <th>Image</th>
+          
+        </tr>
+        {% for da in data %}
+        <tr>
+            <td>{{da.Product_Name}}</td>
+            <td>{{da.Product_Weight}}</td>  
+            <td>{{da.Product_Price}}</td> 
+            <td>{{da.Product_Category}}</td>          
+            <td><img src="{{da.Image.url}}" height="130" width="130"></td>
+            <td>
+             <form method="POST" action="{% url 'editpro' dataid=da.id %}">
+                {% csrf_token %}
+              <button class="badge badge-success"><div class="badge badge-success" >Update </div></button>&nbsp;</form></td>
+       <td>
+         <form method="POST" action="{% url 'deletepro' dataid=da.id %}">
+            {% csrf_token %}
+              <button class="badge badge-success"> <div class="badge badge-success">Delete</div></button></form></td>
+          </tr>
+          {% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}
